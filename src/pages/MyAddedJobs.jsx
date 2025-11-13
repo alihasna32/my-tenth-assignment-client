@@ -8,15 +8,22 @@ const MyAddedJobs = () => {
   const [jobs, setJobs] = useState([]);
   const authSecure = UseAxiosSecure();
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!user) return;
 
-    authSecure.get(`/myAddedJobs?email=${user.email}`)
-      .then((res) => setJobs(res.data))
-      .catch((err) => console.error("Error loading accepted jobs:", err));
+    authSecure
+      .get(`/myAddedJobs?email=${user.email}`)
+      .then((res) => {
+        setJobs(res.data);
+        setLoading(false); 
+      })
+      .catch((err) => {
+        console.error("Error loading added jobs:", err);
+        setLoading(false); 
+      });
   }, [authSecure, user]);
-
 
   
   const handleDelete = async (id) => {
@@ -62,6 +69,13 @@ const MyAddedJobs = () => {
     }
   };
 
+  if(loading){
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <span className="loading loading-spinner loading-xl"></span>
+      </div>
+    );
+  }
   return (
     <div className="p-6">
       <h2 className="text-3xl font-bold text-center mb-10">
@@ -103,7 +117,7 @@ const MyAddedJobs = () => {
                     </td>
 
                     <td>
-                      <span className="badge badge-ghost badge-sm">
+                      <span className="badge badge-ghost badge-sm text-white bg-secondary">
                         {task.category}
                       </span>
                     </td>
@@ -112,7 +126,7 @@ const MyAddedJobs = () => {
                       {task.postedBy || "Unknown"}
                     </td>
 
-                    <td className="flex gap-3 items-center">
+                    <td className="flex gap-3 items-center mt-2.5">
                       <Link
                         to={`/jobDetails/${task._id}`}
                         className="btn btn-primary btn-xs"

@@ -36,7 +36,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/allJobs",
-        element: <AllJobs></AllJobs>,
+        element: <AllJobs></AllJobs>
       },
       {
         path: "/jobDetails/:id",
@@ -46,7 +46,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/updateJob/:id",
-        element: <Update></Update>,
+        element: <PrivateRoutes>
+          <Update></Update>
+        </PrivateRoutes>,
       },
       {
         path: "/myAcceptedTasks",

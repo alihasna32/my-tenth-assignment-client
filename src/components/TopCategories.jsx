@@ -4,9 +4,8 @@ import UseAxios from "../hooks/UseAxios";
 
 const TopCategories = () => {
   const [categories, setCategories] = useState([]);
-
   const [selectedCategory, setSelectedCategory] = useState("Development");
-
+  const [loading, setLoading] = useState(true); // ✅ Loading state added
   const axios = UseAxios();
 
   useEffect(() => {
@@ -37,6 +36,8 @@ const TopCategories = () => {
         setCategories(groupedCategories);
       } catch (error) {
         console.error("❌ Failed to load categories:", error);
+      } finally {
+        setLoading(false); // ✅ Stop loading after fetching
       }
     };
 
@@ -60,8 +61,17 @@ const TopCategories = () => {
     </button>
   );
 
+  // ✅ Show loading spinner
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-[60vh]">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    );
+  }
+
   return (
-    <section className="max-w-7xl mx-auto py-16">
+    <section className="container mx-auto py-16">
       <h2 className="text-3xl font-bold text-center mb-10">
         🌟 Top <span className="text-primary">Categories</span>
       </h2>
@@ -77,7 +87,7 @@ const TopCategories = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-10"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
         >
           {currentCategory.jobs.map((job, i) => (
             <motion.div
@@ -86,7 +96,7 @@ const TopCategories = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               viewport={{ once: true }}
-              className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
+              className="group relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer"
             >
               <img
                 src={job.coverImage}
@@ -95,7 +105,6 @@ const TopCategories = () => {
               />
 
               <div className="absolute inset-0 bg-linear-to-t from-black/10 via-black/10 to-transparent"></div>
-
 
               <div className="absolute inset-0 border border-transparent group-hover:border-primary/60 rounded-2xl transition-all duration-300"></div>
             </motion.div>

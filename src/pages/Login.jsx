@@ -90,7 +90,7 @@ const Login = () => {
                 />
                 <p className="underline cursor-pointer">Forgot password</p>
 
-                <button type="submit" className="py-1.5 rounded-md text-[18px] mt-4 bg-base-100 max-w-[320px] shadow-sm shadow-amber-900 cursor-pointer">
+                <button type="submit" className="py-1.5 rounded-md text-[18px] mt-4 bg-primary text max-w-[320px] shadow-sm  cursor-pointer">
                   Login
                 </button>
                 <button

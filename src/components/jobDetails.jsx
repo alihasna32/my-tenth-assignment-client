@@ -7,7 +7,7 @@ import UseAxiosSecure from "../hooks/UseAxiosSecurity";
 const JobDetails = () => {
   const { id } = useParams();
   const [job, setJob] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
   const { user } = useContext(AuthContext);
   const authSecure = UseAxiosSecure();
   const navigate = useNavigate();
@@ -15,16 +15,16 @@ const JobDetails = () => {
   useEffect(() => {
     if (!user) return;
 
+    setLoading(true); 
     authSecure
       .get(`/allJobs/${id}`)
       .then((res) => {
         setJob(res.data);
-        setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching job:", err);
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false)); 
   }, [authSecure, user, id]);
 
   const handleDelete = async () => {
@@ -40,9 +40,9 @@ const JobDetails = () => {
 
     if (!confirmDelete.isConfirmed) return;
 
+    setLoading(true); 
     try {
       const res = await authSecure.delete(`/deleteJob/${id}`);
-
       if (res.data.deletedCount > 0) {
         Swal.fire({
           position: "top-center",
@@ -66,11 +66,16 @@ const JobDetails = () => {
         title: "Failed to delete job",
         text: "Please try again later.",
       });
+    } finally {
+      setLoading(false); 
     }
   };
 
-
   const handleAccept = async () => {
+    if (!job || !user) return;
+    const { title, category, summary, coverImage, postedBy, userEmail } = job;
+
+    setLoading(true); 
     try {
       const acceptedTask = {
         jobId: id,
@@ -80,11 +85,14 @@ const JobDetails = () => {
         coverImage,
         postedBy,
         jobOwnerEmail: userEmail,
-        userEmail: user?.email, 
+        userEmail: user?.email,
         acceptedAt: new Date(),
       };
 
-      const res = await authSecure.post(`/accept-task?email=${user.email}`, acceptedTask);
+      const res = await authSecure.post(
+        `/accept-task?email=${user.email}`,
+        acceptedTask
+      );
 
       if (res.data.insertedId) {
         Swal.fire({
@@ -108,13 +116,15 @@ const JobDetails = () => {
         title: "Something went wrong!",
         text: error.message,
       });
+    } finally {
+      setLoading(false); 
     }
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
+        <span className="loading loading-spinner loading-xl"></span>
       </div>
     );
   }
@@ -137,18 +147,17 @@ const JobDetails = () => {
           alt={title}
           className="w-full h-64 object-cover rounded-lg mb-5"
         />
+
         <h1 className="text-3xl font-bold mb-3 leading-12">{title}</h1>
 
         <div className="text-sm text-gray-400 mb-2 flex justify-between items-center py-3">
-          <h1 className="text-[16px] font-medium">
-            Posted by: {postedBy}
-          </h1>
+          <h1 className="text-[16px] font-medium">Posted by: {postedBy}</h1>
           <p className="inline-block bg-secondary px-3 py-1 rounded-lg text-white">
             {category}
           </p>
         </div>
 
-        <p className="text-lg text-gray-300 mb-5 leading-relaxed">{summary}</p>
+        <p className="text-lg text-base-content mb-5 leading-relaxed">{summary}</p>
 
         <div className="flex justify-between">
           {user?.email === userEmail ? (
@@ -164,11 +173,13 @@ const JobDetails = () => {
               </button>
             </>
           ) : (
-            <div className="flex  justify-center items-center w-full gap-3">
-              <p className="bg-error italic rounded-xl px-3 py-1 text-white text-center">
+            <div className="flex justify-center items-center w-full gap-3">
+              <p className="bg-error italic rounded-xl px-3 py-1 text-base-content text-center">
                 You can’t edit or delete this job.
               </p>
-              <button onClick={handleAccept} className="btn btn-success">Accept</button>
+              <button onClick={handleAccept} className="btn btn-success">
+                Accept
+              </button>
             </div>
           )}
         </div>

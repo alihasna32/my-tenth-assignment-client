@@ -7,18 +7,17 @@ const Navbar = () => {
   const { user, signOutUser, loading } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
 
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || "light")
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
-    const html = document.querySelector('html')
-     html.setAttribute("data-theme", theme)
-     localStorage.setItem("theme", theme)
-  }, [theme])
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const handleTheme = (checked) => {
-    setTheme(checked ? "dark": "light")
-  }
-
+    setTheme(checked ? "dark" : "light");
+  };
 
   if (loading) {
     return (
@@ -39,7 +38,6 @@ const Navbar = () => {
       .catch(console.error);
   };
 
-
   const navlink = (
     <>
       <li>
@@ -59,10 +57,12 @@ const Navbar = () => {
       </li>
     </>
   );
+
   return (
     <div className="navbar bg-base-300 shadow-sm px-5 md:px-10">
+      {/* Left: Logo + Mobile Dropdown */}
       <div className="navbar-start flex items-center gap-2">
-        <div className="dropdown lg:hidden ">
+        <div className="dropdown lg:hidden">
           <label tabIndex={0} className="cursor-pointer btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -92,20 +92,23 @@ const Navbar = () => {
         </Link>
       </div>
 
+      {/* Middle: Navlinks for desktop */}
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1">{navlink}</ul>
+      </div>
+
+      {/* Right: Theme toggle + User */}
       <div className="navbar-end flex items-center gap-4">
-        <div className="hidden lg:flex">
-          <ul className="menu menu-horizontal">{navlink}</ul>
-        </div>
-          <strong className="max-sm:hidden">MODE</strong>
-          <input
-           onChange={(e)=> handleTheme(e.target.checked)}
-           type="checkbox"
-           defaultChecked={localStorage.getItem('theme') === "dark"}
-           className="toggle"/>
+        <strong className="max-sm:hidden">MODE</strong>
+        <input
+          onChange={(e) => handleTheme(e.target.checked)}
+          type="checkbox"
+          defaultChecked={localStorage.getItem("theme") === "dark"}
+          className="toggle"
+        />
 
         {user ? (
           <div className="relative flex items-center gap-4">
-
             <img
               onMouseEnter={() => setOpen(true)}
               onMouseLeave={() => setOpen(false)}

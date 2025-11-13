@@ -10,7 +10,8 @@ import nike from "../assets/nike.png"
 
 const OurSponsor = () => {
   return (
-    <div className="gap-3 my-5 bg-base-200 p-3">
+    <section className='px-5'>
+      <div className="gap-3 bg-base-200 py-8 my-16 rounded-2xl container mx-auto px-5">
       <h2 className="text-3xl font-bold text-center mb-10">
         Our <span className="text-primary">Sponsors</span>
       </h2>
@@ -24,6 +25,7 @@ const OurSponsor = () => {
         <img className='w-[150px] ml-15' src={nike} alt=""/>
       </Marquee>
     </div>
+    </section>
   )
 }
 

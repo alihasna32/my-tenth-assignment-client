@@ -1,11 +1,9 @@
-import React from "react";
 import { Link } from "react-router";
 
 const Job = ({ job }) => {
   const { _id, title, category, summary, coverImage, postedBy } = job;
-
   return (
-    <div className="bg-base-100 text-white p-4 shadow-xl rounded-2xl overflow-hidden flex flex-col">
+    <div className="text-white p-4 shadow-xl rounded-2xl overflow-hidden flex flex-col bg-base-200">
       <img
         src={coverImage}
         alt={title}
@@ -13,15 +11,15 @@ const Job = ({ job }) => {
       />
 
       <div className="flex justify-between my-2">
-        <strong className="text-sm text-gray-400">{postedBy}</strong>
+        <strong className="text-sm">{postedBy}</strong>
         <p className="text-sm bg-secondary px-1.5 rounded-xl font-medium">
           {category}
         </p>
       </div>
 
-      <h2 className="text-neutral text-lg font-semibold">{title}</h2>
-      <p className="mt-2 text-gray-300 grow">
-        {summary.slice(0, 80)}...
+      <h2 className="text-lg font-semibold text-base-content">{summary.slice(0, 40)}...</h2>
+      <p className="mt-2 grow text-base-content">
+        {summary.slice(0, 60)}...
       </p>
 
       <div className="mt-auto pt-3">

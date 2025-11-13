@@ -133,7 +133,7 @@ const provider = new GoogleAuthProvider();
 
                   <button
                     type="submit"
-                    className="py-1.5 rounded-md text-[18px] mt-4 bg-base-100 max-w-[320px] shadow-sm shadow-amber-900 cursor-pointer"
+                    className="py-1.5 rounded-md text-[18px] mt-4 text max-w-[320px] shadow-sm bg-primary cursor-pointer"
                   >
                     Register
                   </button>

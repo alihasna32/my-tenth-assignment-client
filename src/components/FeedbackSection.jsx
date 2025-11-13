@@ -7,18 +7,19 @@ const FeedbackSection = () => {
         setYes(true)
     }
   return (
-    <section
-      className="relative bg-cover bg-center bg-no-repeat h-[400px] flex items-center justify-center"
+    <div className="px-5">
+      <section
+      className="relative bg-cover bg-center bg-no-repeat h-[400px] flex items-center justify-center container mx-auto rounded-2xl"
       style={{
         backgroundImage:
           "url('https://i.ibb.co.com/7tXX7cPV/medium-shot-woman-with-thumbs-up.jpg')", 
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
+      <div className="absolute inset-0 bg-black/50 rounded-2xl"></div>
 
       {/* Content */}
-      <div className="relative text-center text-white px-4">
+      <div className="relative text-center text-white">
         {/* Play Button */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center hover:scale-105 transition-transform duration-300 shadow-lg">
@@ -45,6 +46,7 @@ const FeedbackSection = () => {
         }
       </div>
     </section>
+    </div>
   );
 };
 
