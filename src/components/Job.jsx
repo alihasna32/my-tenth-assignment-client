@@ -1,9 +1,16 @@
 import { Link } from "react-router";
+import { motion } from "framer-motion";
 
 const Job = ({ job }) => {
   const { _id, title, category, summary, coverImage, postedBy } = job;
   return (
-    <div className="text-white p-4 shadow-xl rounded-2xl overflow-hidden flex flex-col bg-base-200">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="text-white p-4 shadow-xl rounded-2xl overflow-hidden flex flex-col bg-base-200"
+    >
       <img
         src={coverImage}
         alt={title}
@@ -17,10 +24,8 @@ const Job = ({ job }) => {
         </p>
       </div>
 
-      <h2 className="text-lg font-semibold text-base-content">{summary.slice(0, 40)}...</h2>
-      <p className="mt-2 grow text-base-content">
-        {summary.slice(0, 60)}...
-      </p>
+      <h2 className="text-lg font-semibold text-base-content">{title.slice(0, 40)}...</h2>
+      <p className="mt-2 grow text-base-content">{summary.slice(0, 60)}...</p>
 
       <div className="mt-auto pt-3">
         <Link
@@ -30,7 +35,7 @@ const Job = ({ job }) => {
           View Details
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

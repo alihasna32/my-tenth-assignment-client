@@ -11,6 +11,7 @@ import HomePage from "../pages/HomePage";
 import error404 from "../assets/error-404.png";
 import MyAddedJobs from "../pages/MyAddedJobs";
 import PrivateRoutes from "../context/PrivateRoutes";
+import AboutSection from "../components/AboutSection";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
         element: <PrivateRoutes>
           <MyAddedJobs></MyAddedJobs>
         </PrivateRoutes>,
+      },
+      {
+        path: "/about",
+        element: <AboutSection></AboutSection>
       },
       {
         path: "/*",

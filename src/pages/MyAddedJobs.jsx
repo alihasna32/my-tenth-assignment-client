@@ -3,12 +3,13 @@ import UseAxiosSecure from "../hooks/UseAxiosSecurity";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 import { Link } from "react-router";
+import { motion } from "framer-motion";
 
 const MyAddedJobs = () => {
   const [jobs, setJobs] = useState([]);
   const authSecure = UseAxiosSecure();
   const { user } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) return;
@@ -17,15 +18,14 @@ const MyAddedJobs = () => {
       .get(`/myAddedJobs?email=${user.email}`)
       .then((res) => {
         setJobs(res.data);
-        setLoading(false); 
+        setLoading(false);
       })
       .catch((err) => {
         console.error("Error loading added jobs:", err);
-        setLoading(false); 
+        setLoading(false);
       });
   }, [authSecure, user]);
 
-  
   const handleDelete = async (id) => {
     const confirmDelete = await Swal.fire({
       title: "Are you sure?",
@@ -69,7 +69,7 @@ const MyAddedJobs = () => {
     }
   };
 
-  if(loading){
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
         <span className="loading loading-spinner loading-xl"></span>
@@ -79,7 +79,8 @@ const MyAddedJobs = () => {
   return (
     <div className="p-6">
       <h2 className="text-3xl font-bold text-center mb-10">
-          My added jobs <span className="text-primary font-bold">{jobs.length}</span>
+        My added jobs{" "}
+        <span className="text-primary font-bold">{jobs.length}</span>
       </h2>
 
       <div className="overflow-x-auto">
@@ -98,7 +99,13 @@ const MyAddedJobs = () => {
             {jobs.length > 0 ? (
               jobs.map((task, index) => {
                 return (
-                  <tr key={task._id}>
+                  <motion.tr
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    viewport={{ once: true }}
+                    key={task._id}
+                  >
                     <td>{index + 1}</td>
                     <td>
                       <div className="flex items-center gap-3">
@@ -108,7 +115,9 @@ const MyAddedJobs = () => {
                           </div>
                         </div>
                         <div>
-                          <div className="font-bold">{task.title}</div>
+                          <div className="font-bold">
+                            {task.title?.slice(0, 25)}...
+                          </div>
                           <div className="text-sm opacity-50">
                             {task.summary?.slice(0, 40)}...
                           </div>
@@ -140,7 +149,7 @@ const MyAddedJobs = () => {
                         Delete
                       </button>
                     </td>
-                  </tr>
+                  </motion.tr>
                 );
               })
             ) : (

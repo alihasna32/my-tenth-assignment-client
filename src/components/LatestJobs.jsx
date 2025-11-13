@@ -2,6 +2,8 @@ import React, { use, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import UseAxios from "../hooks/UseAxios";
+import { motion } from "framer-motion";
+
 const LatestJobs = () => {
   const [jobs, setJobs] = useState([]);
   const axios = UseAxios();
@@ -11,7 +13,7 @@ const LatestJobs = () => {
   useEffect(() => {
     if (loading) return;
     axios
-      .get("/allLatestJobs")
+      .get("/allJobs")
       .then((res) => setJobs(res.data.slice(0, 6)))
       .catch((err) => console.error("Failed to load jobs:", err));
     setLoadings(false);
@@ -24,6 +26,7 @@ const LatestJobs = () => {
       </div>
     );
   }
+
   return (
     <div className="pb-2">
       <section className="max-w-full mx-auto mt-12 ">
@@ -33,10 +36,14 @@ const LatestJobs = () => {
 
         {jobs.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 container mx-auto">
-            {jobs.map((job) => (
-              <div
+            {jobs.map((job, index) => (
+              <motion.div
                 key={job._id}
                 className="card bg-base-200 shadow-xl rounded-2xl overflow-hidden"
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true, amount: 0.2 }} 
               >
                 <figure className="h-40 w-full overflow-hidden">
                   <img
@@ -47,14 +54,10 @@ const LatestJobs = () => {
                 </figure>
 
                 <div className="card-body">
-                  <h3 className="text-lg font-semibold">
-                    {job.title}
-                  </h3>
-                  <p className="text-sm">
-                    {job.summary?.slice(0, 60)}...
-                  </p>
+                  <h3 className="text-lg font-semibold">{job.title}</h3>
+                  <p className="text-sm">{job.summary?.slice(0, 60)}...</p>
                   <div className="flex justify-between items-center mt-3">
-                    <span className="text-sm py-1 text bg-secondary px-1.5 rounded-xl font-medium">
+                    <span className="text-sm py-1 bg-secondary px-1.5 rounded-xl font-medium">
                       {job.category}
                     </span>
                     <Link to={`/jobDetails/${job._id}`}>
@@ -64,7 +67,7 @@ const LatestJobs = () => {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         ) : (
@@ -76,4 +79,5 @@ const LatestJobs = () => {
     </div>
   );
 };
+
 export default LatestJobs;

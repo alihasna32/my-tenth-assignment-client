@@ -1,13 +1,14 @@
+import { Link } from "react-router";
 import xLogo from "../assets/X-logo-twitter-1024x574.jpg.png"
 
 const Footer = () => {
   return (
     <footer className="footer footer-horizontal footer-center bg-base-200 text-base-content rounded p-10">
       <nav className="grid grid-flow-col gap-4">
-        <a className="link link-hover">About us</a>
-        <a className="link link-hover">Contact</a>
-        <a className="link link-hover">Jobs</a>
-        <a className="link link-hover">Press kit</a>
+        <Link to='/about' className="link link-hover">About us</Link>
+        <Link to={'https://github.com/alihasna32'} className="link link-hover">Contact</Link>
+        <Link to='/allJobs' className="link link-hover">Jobs</Link>
+        <Link to="/addJob" className="link link-hover">Create jobs</Link>
       </nav>
       <nav>
         <div className="grid grid-flow-col gap-4">

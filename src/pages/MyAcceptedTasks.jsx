@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import UseAxiosSecure from "../hooks/UseAxiosSecurity";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 const MyAcceptedTasks = () => {
   const [tasks, setTasks] = useState([]);
@@ -140,7 +141,13 @@ const MyAcceptedTasks = () => {
           <tbody>
             {tasks.length > 0 ? (
               tasks.map((task, index) => (
-                <tr key={task._id}>
+                <motion.tr
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  viewport={{ once: true }}
+                  key={task._id}
+                >
                   <td>{index + 1}</td>
                   <td>
                     <div className="flex items-center gap-3">
@@ -182,7 +189,7 @@ const MyAcceptedTasks = () => {
                       Cancel
                     </button>
                   </td>
-                </tr>
+                </motion.tr>
               ))
             ) : (
               <tr>

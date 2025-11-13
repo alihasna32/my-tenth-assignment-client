@@ -10,11 +10,13 @@ const HomePage = () => {
   return (
     <div>
         <Banner></Banner>
-        <LatestJobs></LatestJobs>
+        <div className='px-5'>
+          <LatestJobs></LatestJobs>
         <TopCategories></TopCategories>
         <AboutSection></AboutSection>
         <FeedbackSection></FeedbackSection>
         <OurSponsor></OurSponsor>
+        </div>
     </div>
   )
 }

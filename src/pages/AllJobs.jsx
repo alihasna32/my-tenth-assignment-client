@@ -33,7 +33,7 @@ const AllJobs = () => {
   }
 
   return (
-    <div className="p-6 container mx-auto">
+    <div className="p-5 container mx-auto">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <h2 className="text-3xl font-bold mb-3 sm:mb-0">
           All <span className="text-primary">{jobs.length}</span> Jobs
